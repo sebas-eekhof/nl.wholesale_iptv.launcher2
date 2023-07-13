@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:ignore="HardcodedText">
+	<item android:title="Netwerk">
+		<menu>
+			<item android:title="WiFi" android:icon="@drawable/ic_wifi_4" android:id="@+id/option_wifi" />
+		</menu>
+	</item>
+	<item android:title="Beeld">
+		<menu>
+			<item android:title="Weergave" android:icon="@drawable/ic_display" android:id="@+id/option_android_view" />
+			<item android:title="Scherm" android:icon="@drawable/ic_tv" android:id="@+id/option_display" />
+		</menu>
+	</item>
+	<item android:title="Geluid">
+		<menu>
+			<item android:title="Geluiden" android:icon="@drawable/ic_volume" android:id="@+id/option_sounds" />
+			<item android:title="Speakers" android:icon="@drawable/ic_speaker" android:id="@+id/option_speakers" />
+		</menu>
+	</item>
+	<item android:title="Apparaten">
+		<menu>
+			<item android:title="Koppel afstandbediening" android:icon="@drawable/ic_remote" android:id="@+id/option_connect_remote" />
+		</menu>
+	</item>
+	<item android:title="Systeem">
+		<menu>
+			<item android:title="Updates" android:icon="@drawable/ic_update" android:id="@+id/option_updates" />
+			<item android:title="Informatie" android:icon="@drawable/ic_info" android:id="@+id/option_info" />
+		</menu>
+	</item>
+</menu>

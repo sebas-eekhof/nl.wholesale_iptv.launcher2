@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="settings_background_focus">#494949</color>
+	<color name="settings_background">#303030</color>
+	<color name="primary">#922b8e</color>
+</resources>
