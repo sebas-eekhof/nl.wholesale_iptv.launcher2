@@ -44,13 +44,13 @@ public class WifiAdapter extends ArrayAdapter<WifiResult> {
         ((ImageView) convertView.findViewById(R.id.wifi_signal_icon)).setImageResource(getLevelIconResource(item.level));
 
         if(item.security == WifiSecurity.NONE)
-            ((ImageView) convertView.findViewById(R.id.wifi_lock_icon)).setVisibility(View.INVISIBLE);
+            convertView.findViewById(R.id.wifi_lock_icon).setVisibility(View.INVISIBLE);
 
 
         return convertView;
     }
 
-    private int getLevelIconResource(int level) {
+    public static int getLevelIconResource(int level) {
         switch(WifiManager.calculateSignalLevel(level, 5)) {
             case 4:
                 return R.drawable.ic_wifi_4;

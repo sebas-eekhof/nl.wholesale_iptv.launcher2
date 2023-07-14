@@ -1,6 +1,8 @@
 package nl.wholesale_iptv.launcher2.helpers;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
@@ -115,12 +117,17 @@ public class NetworkHelper {
 
     public int getWifiState() {
         try {
-            WifiManager wifi = getWifiManager();
-            return wifi.getWifiState();
+            WifiManager wifiManager = getWifiManager();
+            return wifiManager.getWifiState();
         } catch(Exception e) {
             e.printStackTrace();
             return WifiManager.WIFI_STATE_UNKNOWN;
         }
+    }
+    
+    public WifiInfo getWifiInfo() {
+        WifiManager wifiManager = getWifiManager();
+        return wifiManager.getConnectionInfo();
     }
 
     public String wifiStateToText(int state) {

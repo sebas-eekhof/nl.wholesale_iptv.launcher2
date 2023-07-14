@@ -20,7 +20,6 @@ public class ProbeWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        System.out.println("RUNNING WORKER");
         ApiHelper apiHelper = new ApiHelper(context);
         ApiResponse res = apiHelper.probe();
         if(res.success)

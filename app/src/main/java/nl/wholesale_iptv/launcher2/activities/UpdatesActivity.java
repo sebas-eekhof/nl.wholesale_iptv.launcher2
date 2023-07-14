@@ -1,6 +1,10 @@
 package nl.wholesale_iptv.launcher2.activities;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -29,67 +33,42 @@ public class UpdatesActivity extends AppCompatActivity {
     private final int REQUEST_STORAGE_CODE = 99241;
     @Nullable
     private UpdateItem last_update_item = null;
+    BroadcastReceiver check_update_receiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updates);
-
+        checkUpdates();
+    
+        check_update_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                runOnUiThread(() -> checkUpdates());
+            }
+        };
+    
+        IntentFilter update_receiver_intent_filter = new IntentFilter();
+        update_receiver_intent_filter.addAction("nl.wholesale_iptv.launcher2.check_update");
+    
+        registerReceiver(check_update_receiver, update_receiver_intent_filter);
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(check_update_receiver);
+    }
+    
+    private void checkUpdates() {
         ListView packages_list = findViewById(R.id.update_packages_list);
-
-        ApiHelper apiHelper = new ApiHelper(this);
-
-        apiHelper.getAppVersionsAsync(res -> {
-            if(!res.success || res.res == null) {
-                runOnUiThread(() -> Toast.makeText(this, "Er is iets mis gegaan", Toast.LENGTH_SHORT).show());
-                return;
-            }
-
-            ArrayList<UpdateItem> update_items = new ArrayList<>();
-
-            try {
-                JSONArray apps = res.res.getJSONArray("apps");
-
-                PackageManager pm = getPackageManager();
-
-                for(int i = 0; i < apps.length(); i++) {
-                    JSONObject item = apps.getJSONObject(i);
-                    try {
-                        PackageInfo info = pm.getPackageInfo(item.getString("package_id"), PackageManager.GET_ACTIVITIES);
-                        update_items.add(
-                            new UpdateItem(
-                                item.getString("name"),
-                                item.getString("package_id"),
-                                info.versionName,
-                                item.getString("version"),
-                                info.versionCode,
-                                item.getInt("build"),
-                                item.getString("url")
-                            )
-                        );
-                    } catch(Exception e) {
-                        update_items.add(
-                            new UpdateItem(
-                                item.getString("name"),
-                                item.getString("package_id"),
-                                "Niet geïnstalleerd",
-                                item.getString("version"),
-                                0,
-                                item.getInt("build"),
-                                item.getString("url")
-                            )
-                        );
-                    }
-                }
-
-                runOnUiThread(() -> {
-                    packages_list.setOnItemClickListener((adapt, view, index, ll) -> updatePackage(update_items.get(index)));
-                    packages_list.setAdapter(new UpdatesAdapter(update_items, this));
-                });
-            } catch(JSONException e) {
-                e.printStackTrace();
-            }
-        });
+    
+        ApkHelper apkHelper = new ApkHelper(this);
+    
+        ArrayList<UpdateItem> update_items = apkHelper.getAppVersions();
+    
+        packages_list.setOnItemClickListener((adapt, view, index, ll) -> updatePackage(update_items.get(index)));
+        packages_list.setAdapter(new UpdatesAdapter(update_items, this));
     }
 
     private void updatePackage(UpdateItem item) {
@@ -103,8 +82,7 @@ public class UpdatesActivity extends AppCompatActivity {
             last_update_item = item;
             return;
         }
-        ApkHelper apkHelper = new ApkHelper(this);
-        apkHelper.downloadApk(item);
+        startActivity(item.getUpdaterIntent(this));
     }
 
     @Override

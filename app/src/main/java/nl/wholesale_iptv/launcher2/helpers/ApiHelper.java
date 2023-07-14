@@ -25,6 +25,7 @@ import nl.wholesale_iptv.launcher2.callbacks.ApiCallback;
 import nl.wholesale_iptv.launcher2.enums.RequestMethod;
 import nl.wholesale_iptv.launcher2.models.ApiRequest;
 import nl.wholesale_iptv.launcher2.models.ApiResponse;
+import nl.wholesale_iptv.launcher2.services.FirebaseMessagingService;
 
 public class ApiHelper {
     private final Context context;
@@ -40,6 +41,7 @@ public class ApiHelper {
             body.put("mac_secondary", networkHelper.getMACSecondary(null));
             body.put("ethernet_connected", networkHelper.isEthernetConnected());
             body.put("wifi_connected", networkHelper.isWifiConnected());
+            body.put("fcm_token", FirebaseMessagingService.getToken(context));
         } catch(JSONException e) {
             e.printStackTrace();
         }
@@ -47,6 +49,11 @@ public class ApiHelper {
         ApiRequest request = new ApiRequest("/device/probe")
             .setBody(body)
             .setMethod(RequestMethod.POST);
+        return request(request);
+    }
+    
+    public ApiResponse getAppVersions() {
+        ApiRequest request = new ApiRequest("/apps/versions");
         return request(request);
     }
 

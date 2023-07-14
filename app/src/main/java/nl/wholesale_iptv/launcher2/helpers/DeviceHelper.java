@@ -20,6 +20,20 @@ public class DeviceHelper {
     public boolean isPrixonPrisma() {
         return (Build.MODEL.equals("Prisma") && Build.BRAND.equals("Amlogic") && Build.BOARD.equals("newton"));
     }
+    
+    public boolean isPrixonPrismaWithRoot() {
+        return (isPrixonPrisma() && hasRootAccess());
+    }
+    
+    public void reboot() {
+        if(!hasRootAccess())
+            return;
+        try {
+            RootShellHelper.exec("reboot");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getSerial() {
         String prefix = "";

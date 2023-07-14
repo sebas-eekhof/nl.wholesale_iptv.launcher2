@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "510686583212",
+    "project_id": "wholesale-iptv-launcher2",
+    "storage_bucket": "wholesale-iptv-launcher2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510686583212:android:b171b5d27b8af6c1578209",
+        "android_client_info": {
+          "package_name": "nl.wholesale_iptv.launcher2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510686583212-qev82nkdehe43bqpn531ahivojb39t4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-CjChd0e6JEUQaUqK-t82sCPUi0Dr2LU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510686583212-qev82nkdehe43bqpn531ahivojb39t4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
